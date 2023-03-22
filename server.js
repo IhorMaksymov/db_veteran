@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const dotenv = require('dotenv');
 
 dotenv.config();
-// https://gks-veteran.onrender.com
+
 const { DB_HOST, PORT = 5000 } = process.env;
 
 const app = require('./app');
@@ -15,3 +15,5 @@ mongoose.connect(DB_HOST)
     console.log(error.message);
     process.exit(1);
   });
+
+  // https://gks-veteran.onrender.com
