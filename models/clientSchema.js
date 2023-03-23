@@ -15,11 +15,11 @@ const clientSchema = Schema({
         type: String,
         required: [true, 'Set phone for contact'],
         minlength: 6
+    },
+    owner: {
+      type: Schema.Types.ObjectId,
+      ref: 'admin',
     }
-    // owner: {
-    //   type: Schema.Types.ObjectId,
-    //   ref: 'adnim',
-    // }
 }, { versionKey: false });
 
 const updateClientSchema = Joi.object({
