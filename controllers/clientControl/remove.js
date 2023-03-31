@@ -8,7 +8,10 @@ const remove = async (req, res) => {
     if (!removeClient) {
         throw HttpError(404, 'Not found client');
     }
-    res.json({ message: 'Client deleted' });
+    res.json({
+        id,
+        message: 'Client deleted'
+    });
 }
 
 module.exports = {
