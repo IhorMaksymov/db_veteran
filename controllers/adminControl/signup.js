@@ -1,5 +1,5 @@
 const bcrypt = require('bcryptjs');
-// const jwt = require('jsonwebtoken');
+const jwt = require('jsonwebtoken');
 
 const { Admin } = require('../../models/adminSchema');
 
@@ -14,18 +14,21 @@ const signup = async (req, res) => {
         throw HttpError(409, `User with ${email} already exist`)
     }
 
+    const newUser = {
+        email,
+        password,
+    }
+
     const hashPass = bcrypt.hashSync(password, bcrypt.genSaltSync(10));
 
-    const newUser =  await Admin.create({ email, password: hashPass, });
+    const token = jwt.sign(newUser, SECRET_KEY, { expiresIn: '24h' });
 
-    // const token = jwt.sign({newUser}, SECRET_KEY, { expiresIn: '24h' });
-
-    // const token = jwt.sign({ id: newUser._id }, SECRET_KEY, { expiresIn: '24h' });
-    
+    await Admin.create({email, password: hashPass, token});
     res.status(201).json({
         status: 'success',
         code: 201,
         data: {
+            token,
             user: {
                 email,
             }
