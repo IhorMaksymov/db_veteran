@@ -11,13 +11,13 @@ const adminCurrent = async (req, res, next) => {
     const [bearer, token] = authorization.split(' ');
     try {
         if (bearer !== 'Bearer') {
-            res.status(401).json({ message: 'Not authrized' });
+            res.status(401).json({ message: 'Not authrized token1' });
             // throw HttpError(401, 'Not authrized');
         }
         const { email } = jwt.verify(token, SECRET_KEY);
         const user = await Admin.findById(email);
         if (!user || !user.token) {
-            res.status(401).json({ message: 'Not authrized' });
+            res.status(401).json({ message: 'Not authrized token2' });
             // throw HttpError(401, 'Not authrized');
         }
 
