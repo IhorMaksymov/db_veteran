@@ -14,7 +14,7 @@ const signup = async (req, res) => {
         throw HttpError(409, `User with ${email} already exist`)
     }
 
-    // const hashPass = bcrypt.hashSync(password, bcrypt.genSaltSync(10));
+    const hashPass = bcrypt.hashSync(password, bcrypt.genSaltSync(10));
 
     const newUser =  await Admin.create({ email, password: hashPass, });
 
