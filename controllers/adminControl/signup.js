@@ -9,22 +9,28 @@ const { SECRET_KEY } = process.env;
 
 const signup = async (req, res) => {
     const { email, password } = req.body;
-    const user = await Admin.findOne({ email });
-    if (user) {
+    const candidate = await Admin.findOne({ email });
+    if (candidate) {
         throw HttpError(409, `User with ${email} already exist`)
-    }
-
-    console.log(user);
-
-    const newUser = {
-        id: '',
     }
 
     const hashPass = bcrypt.hashSync(password, bcrypt.genSaltSync(10));
 
-    const token = jwt.sign(newUser, SECRET_KEY, { expiresIn: '24h' });
+    const user = new Admin({ email, password: hashPass });
 
-    await Admin.create({ email, password: hashPass, token });
+    console.log(user);
+    console.log(user._id);
+
+    const payload = {
+        id: user._id
+    }
+
+    const token = jwt.sign(payload, SECRET_KEY, { expiresIn: '24h' });
+
+    const newUser = await Admin.create({_id: user._id, email: user.email, password: user.password, token});
+
+    console.log(newUser)
+
     res.status(201).json({
         status: 'success',
         token,

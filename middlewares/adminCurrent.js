@@ -20,8 +20,14 @@ const adminCurrent = async (req, res, next) => {
             res.status(401).json({ message: 'Not authrized token1' });
             // throw HttpError(401, 'Not authrized');
         }
-        const { id } = jwt.verify(token, SECRET_KEY);
+        const {id} = jwt.verify(token, SECRET_KEY);
+
+        console.log(id)
+
         const user = await Admin.findById(id);
+
+        console.log(user)
+
         if (!user || !user.token) {
             res.status(401).json({ message: 'Not authrized token2' });
             // throw HttpError(401, 'Not authrized');
