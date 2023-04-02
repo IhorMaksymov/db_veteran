@@ -14,6 +14,8 @@ const signup = async (req, res) => {
         throw HttpError(409, `User with ${email} already exist`)
     }
 
+    console.log(req.headers)
+
     const payload = {
         email,
     }
@@ -22,16 +24,15 @@ const signup = async (req, res) => {
 
     const token = jwt.sign(payload, SECRET_KEY, { expiresIn: '24h' });
 
-    await Admin.create({email, password: hashPass, token});
+    await Admin.create({ email, password: hashPass, token });
     res.status(201).json({
         status: 'success',
         code: 201,
-        data: {
-            token,
-            user: {
-                email,
-            }
+        token,
+        user: {
+            email,
         }
+        
     });
 }
 

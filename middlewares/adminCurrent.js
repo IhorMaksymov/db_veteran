@@ -7,6 +7,8 @@ const { HttpError } = ('../helpers');
 const { SECRET_KEY } = process.env;
 
 const adminCurrent = async (req, res, next) => {
+
+    console.log(req.headers)
     const { authorization = '' } = req.headers;
     const [bearer, token] = authorization.split(' ');
     try {
