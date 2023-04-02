@@ -14,20 +14,19 @@ const signup = async (req, res) => {
         throw HttpError(409, `User with ${email} already exist`)
     }
 
-    console.log(req.headers)
+    console.log(user);
 
-    const payload = {
-        email,
+    const newUser = {
+        id: '',
     }
 
     const hashPass = bcrypt.hashSync(password, bcrypt.genSaltSync(10));
 
-    const token = jwt.sign(payload, SECRET_KEY, { expiresIn: '24h' });
+    const token = jwt.sign(newUser, SECRET_KEY, { expiresIn: '24h' });
 
     await Admin.create({ email, password: hashPass, token });
     res.status(201).json({
         status: 'success',
-        code: 201,
         token,
         user: {
             email,

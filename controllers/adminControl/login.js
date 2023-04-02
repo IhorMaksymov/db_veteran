@@ -19,12 +19,14 @@ const login = async (req, res) => {
 
     const token = jwt.sign(payload, SECRET_KEY, { expiresIn: '24h' });
     await Admin.findByIdAndUpdate(user._id, { token });
-    res.status(200).json({
+    res.status(201).json({
+        status: 'success',
+        token,
         user: {
             email,
-            token,
         }
-    })
+        
+    });
 }
 
 module.exports = {

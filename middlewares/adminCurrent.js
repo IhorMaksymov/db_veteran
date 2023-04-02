@@ -9,15 +9,19 @@ const { SECRET_KEY } = process.env;
 const adminCurrent = async (req, res, next) => {
 
     console.log(req.headers)
+
     const { authorization = '' } = req.headers;
     const [bearer, token] = authorization.split(' ');
+
+    console.log(bearer)
+
     try {
         if (bearer !== 'Bearer') {
             res.status(401).json({ message: 'Not authrized token1' });
             // throw HttpError(401, 'Not authrized');
         }
-        const { email } = jwt.verify(token, SECRET_KEY);
-        const user = await Admin.findById(email);
+        const { id } = jwt.verify(token, SECRET_KEY);
+        const user = await Admin.findById(id);
         if (!user || !user.token) {
             res.status(401).json({ message: 'Not authrized token2' });
             // throw HttpError(401, 'Not authrized');
